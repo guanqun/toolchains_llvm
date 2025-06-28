@@ -25,6 +25,25 @@ exports_files(glob(
     allow_empty = True,
 ))
 
+## for libclang files
+cc_library(
+    name = "libclang",
+    srcs = glob([
+        "lib/libclang*.a",
+        "lib/libLLVM*.a",
+    ]),
+    hdrs = glob([
+	# filtering only the .h files doesn't help, as some .inc files are required.
+        "include/clang/**",
+        "include/clang-c/**",
+        "include/llvm/**",
+        "include/llvm-c/**",
+    ]),
+    includes = [
+        "include",
+    ],
+)
+
 ## LLVM toolchain files
 
 filegroup(
@@ -180,11 +199,13 @@ filegroup(
 )
 
 filegroup(
-    name = "libclang",
+    name = "libclang_files",
     srcs = glob(
         [
-            "lib/libclang.so",
-            "lib/libclang.dylib",
+            "lib/libclang*.a",
+            "lib/libLLVM*.a",
+            "include/clang/**/*.h",
+            "include/llvm/**/*.h",
         ],
         allow_empty = True,
     ),
